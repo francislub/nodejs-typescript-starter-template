@@ -22,7 +22,7 @@ export async function createSchool(req: Request, res: Response) {
       data: {
         name,
         slug,
-        logo,
+        logo
       },
     });
     console.log(

@@ -13,7 +13,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 model School {
-  id String @id @default(cuid()) // or use @default(uuid()) for UUID
+   id        String      @id @default(cuid())
   name      String
   logo      String?
   slug String @unique
