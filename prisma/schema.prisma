@@ -19,4 +19,24 @@ model School {
   slug String @unique
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+
+  @@map("schools")
+}
+
+model Contact {
+   id        String      @id @default(cuid())
+  fullname      String
+  email         String
+  phone         String 
+  school         String
+  country         String 
+  schoolPage         String
+  students        Int 
+  role         String
+  media         String 
+  message         String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@map("contacts")
 }
