@@ -1,32 +1,33 @@
 import { db } from "@/db/db";
-import { generateSlug } from "@/utils/generateSlug";
+import { ContactProps, TypedRequestBody } from "@/types/types";
 import { Request, Response } from "express";
 
-export async function createContact(req: Request, res: Response) {
-  const { name, logo } = req.body;
-  const slug = generateSlug(name);
+export async function createContact(req: TypedRequestBody<ContactProps>, res: Response) {
+  const data = req.body;
+  const {email, school } = data;
   try {
-    // Check if the school already exists\
-    const existingContact = await db.school.findUnique({
+    // Check if the contact already exists\
+    const existingEmail = await db.contact.findUnique({
       where: {
-        slug,
+        email,
       },
     });
-    if (existingContact) {
+    const existingSchool = await db.contact.findUnique({
+      where: {
+        school,
+      },
+    });
+    if (existingSchool || existingEmail) {
       return res.status(409).json({
         data: null,
-        error: "Contact with this name already exists",
+        error: "We have already recieved a request for this school or email",
       });
     }
-    const newContact = await db.school.create({
-      data: {
-        name,
-        slug,
-        logo
-      },
+    const newContact = await db.contact.create({
+      data
     });
     console.log(
-      `School created successfully: ${newContact.name} (${newContact.id})`
+      `Cantact created successfully: ${newContact.school} (${newContact.id})`
     );
     return res.status(201).json({
       data: newContact,
@@ -42,7 +43,7 @@ export async function createContact(req: Request, res: Response) {
 }
 export async function getContacts(req: Request, res: Response) {
   try {
-    const contacts = await db.school.findMany({
+    const contacts = await db.contact.findMany({
       orderBy: {
         createdAt: "desc",
       },
