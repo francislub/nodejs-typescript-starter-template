@@ -44,7 +44,7 @@ model Class {
   id        String      @id @default(cuid())
   title      String
   slug         String   @unique
-  streams       stream[] 
+  streams       Stream[] 
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
@@ -54,7 +54,8 @@ model Stream {
   id        String      @id @default(cuid())
   title      String
   slug         String   @unique
-  class       class     @relation(fields: [classId], references: [id]) 
+  classId      String 
+  class       Class     @relation(fields: [classId], references: [id]) 
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
