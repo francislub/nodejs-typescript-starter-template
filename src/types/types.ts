@@ -14,3 +14,14 @@ export type ContactProps = {
     media: string;
     message: string;
   };
+
+  export type ClassCreateProps ={
+    title: string;
+    slug: string;
+  };
+
+  export type StreamCreateProps ={
+    title: string;
+    slug: string;
+    classId: string;
+  }
