@@ -61,3 +61,27 @@ model Stream {
 
   @@map("streams")
 }
+
+model Parent {
+  id        String      @id @default(cuid())
+  title      String
+  firstName  String   
+  lastName   String 
+  relationship  String 
+  email        String? 
+  NIN          String? 
+  gender      String 
+  dob         DateTime
+  phone       String? 
+  nationality  String 
+  whatsapNo  String?
+  imageUrl  String ? 
+  contactMethod  String 
+  occupation     String 
+  address        String 
+  password       String 
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  @@map("parents")
+}

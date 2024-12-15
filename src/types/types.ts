@@ -25,3 +25,21 @@ export type ContactProps = {
     slug: string;
     classId: string;
   }
+  export type ParentCreateProps = {
+    title:string;
+    firstName:string,
+    lastName:string,
+    relationship:string,
+    email:string,
+    NIN:string,
+    gender:string,
+    dob:string,
+    phone:string,
+    nationality:string,
+    whatsapNo:string,
+    contactMethod:string,
+    occupation:string,
+    address:string,
+    password:string,
+    imageUrl:string,
+  }
