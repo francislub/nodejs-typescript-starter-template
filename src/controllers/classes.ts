@@ -1,5 +1,5 @@
 import { db } from "@/db/db";
-import { ClassCreateProps, TypedRequestBody } from "@/types/types";
+import { ClassCreateProps, StreamCreateProps, TypedRequestBody } from "@/types/types";
 import { generateSlug } from "@/utils/generateSlug";
 import { Request, Response } from "express";
 
@@ -38,6 +38,41 @@ export async function createClass(req: TypedRequestBody<ClassCreateProps>, res: 
     });
   }
 }
+export async function createStream(req: TypedRequestBody<StreamCreateProps>, res: Response) {
+  const data = req.body;
+  const slug = generateSlug(data.title)
+  data.slug = slug
+  try {
+    // Check if the stream already exists\
+    const existingStream = await db.stream.findUnique({
+      where: {
+        slug,
+      },
+    });
+    if (existingStream) {
+      return res.status(409).json({
+        data: null,
+        error: "Stream Already exists",
+      });
+    }
+    const newStream = await db.stream.create({
+      data
+    });
+    console.log(
+      `Stream created successfully: ${newStream.title} (${newStream.id})`
+    );
+    return res.status(201).json({
+      data: newStream,
+      error: null,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      data: null,
+      error: "Something went wrong",
+    });
+  }
+}
 export async function getClasses(req: Request, res: Response) {
   try {
     const classes = await db.class.findMany({
@@ -49,6 +84,19 @@ export async function getClasses(req: Request, res: Response) {
       }
     });
     return res.status(200).json(classes);
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function getStreams(req: Request, res: Response) {
+  try {
+    const streams = await db.stream.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+      
+    });
+    return res.status(200).json(streams);
   } catch (error) {
     console.log(error);
   }
