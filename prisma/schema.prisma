@@ -44,6 +44,8 @@ model Class {
   id        String      @id @default(cuid())
   title      String
   slug         String   @unique
+  students Student[]
+  
   streams       Stream[] 
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -56,6 +58,8 @@ model Stream {
   slug         String   @unique
   classId      String 
   class       Class     @relation(fields: [classId], references: [id]) 
+  students Student[]
+  
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
@@ -80,8 +84,42 @@ model Parent {
   occupation     String 
   address        String 
   password       String 
+  students Student[]
+
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
   @@map("parents")
+}
+
+model Student {
+  id        String      @id @default(cuid())
+  name      String
+  firstName  String   
+  lastName   String 
+  email        String 
+  parentId     String 
+  classId      String 
+  streamId     string
+  password     String 
+  imageUrl     String? 
+  phone        String?
+  state        String  
+  BCN          String?  @unique 
+  nationality    String 
+  religion        String 
+  gender         String 
+  dob            DateTime?
+  rollNo         String    @unique
+  regNo         String     @unique
+  admissionDate  DateTime
+  address         String  
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  parent    Parent @relation(fields: [parentId], references:[id], onDelete: Cascade)
+  class    Class @relation(fields: [classId], references:[id])
+  stream    Stream @relation(fields: [streamId], references:[id])
+
+  @@map("students")
 }
