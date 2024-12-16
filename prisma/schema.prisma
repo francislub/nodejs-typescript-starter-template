@@ -45,7 +45,7 @@ model Class {
   title      String
   slug         String   @unique
   students Student[]
-  
+
   streams       Stream[] 
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -100,7 +100,7 @@ model Student {
   email        String 
   parentId     String 
   classId      String 
-  streamId     string
+  streamId     String
   password     String 
   imageUrl     String? 
   phone        String?
