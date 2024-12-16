@@ -80,12 +80,28 @@ export async function getClasses(req: Request, res: Response) {
         createdAt: "desc",
       },
       include: {
-        streams: true
+        streams: {
+          include: {
+            _count:{
+              select: {
+                students: true
+              }
+            }
+          }
+        },
+        _count:{
+          select: {
+            students: true
+          }
+        }
       }
     });
     return res.status(200).json(classes);
   } catch (error) {
     console.log(error);
+    return res.status(500).json({
+      error: "Failed to fetch classes",
+    })
   }
 }
 export async function getStreams(req: Request, res: Response) {
