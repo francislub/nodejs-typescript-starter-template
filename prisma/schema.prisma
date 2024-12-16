@@ -104,6 +104,9 @@ model Student {
   password     String 
   imageUrl     String? 
   phone        String?
+  parentName   String?
+  classTitle   String?
+  streamTitle  String?
   state        String  
   BCN          String?  @unique 
   nationality    String 

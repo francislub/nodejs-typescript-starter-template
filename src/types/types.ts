@@ -52,6 +52,9 @@ export type ContactProps = {
     parentId:string;
     classId:string;
     streamId:string;
+    parentName?:string;
+    classTitle?:string;
+    streamTitle?:string;
     password:string,
     imageUrl:string,
     phone:string;
