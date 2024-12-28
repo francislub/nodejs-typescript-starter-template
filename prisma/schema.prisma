@@ -17,6 +17,12 @@ model School {
   name      String
   logo      String?
   slug String @unique
+
+  students    Student[]
+  classes     Class[]
+  parents     Parent[]
+  streams     Stream[]
+
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
@@ -47,6 +53,9 @@ model Class {
   students Student[]
 
   streams       Stream[] 
+
+  schoolId      String 
+  school        School  @relation(fields: [schoolId], references: [id], onDelete: Cascade)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
@@ -57,9 +66,11 @@ model Stream {
   title      String
   slug         String   @unique
   classId      String 
-  class       Class     @relation(fields: [classId], references: [id]) 
+  class       Class     @relation(fields: [classId], references: [id], onDelete: Cascade) 
   students Student[]
   
+  schoolId      String 
+  school        School  @relation(fields: [schoolId], references: [id], onDelete: Cascade)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
@@ -86,6 +97,9 @@ model Parent {
   password       String 
   students Student[]
 
+  schoolId      String 
+  school        School  @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
@@ -97,9 +111,10 @@ model Student {
   name      String
   firstName  String   
   lastName   String 
-  email        String 
+  email        String  @unique
   parentId     String 
   classId      String 
+  studentType  String? @default("PS")
   streamId     String
   password     String 
   imageUrl     String? 
@@ -119,6 +134,9 @@ model Student {
   address         String  
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+
+  schoolId      String 
+  school        School  @relation(fields: [schoolId], references: [id], onDelete: Cascade)
 
   parent    Parent @relation(fields: [parentId], references:[id], onDelete: Cascade)
   class    Class @relation(fields: [classId], references:[id])

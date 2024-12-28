@@ -48,15 +48,15 @@ export type ContactProps = {
     name:string;
     firstName:string;
     lastName:string;
-    email:string,
+    email:string;
     parentId:string;
     classId:string;
     streamId:string;
     parentName?:string;
     classTitle?:string;
     streamTitle?:string;
-    password:string,
-    imageUrl:string,
+    password:string;
+    imageUrl:string;
     phone:string;
     state:string;
     BCN:string;
@@ -68,5 +68,4 @@ export type ContactProps = {
     regNo:string;
     admissionDate:string;
     address:string;
-  
   };

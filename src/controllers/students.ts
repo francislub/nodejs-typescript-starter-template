@@ -10,22 +10,22 @@ export async function createStudent(req: TypedRequestBody<StudentCreateProps>, r
   data.admissionDate = convertDateToIso(admissionDate)
   try {
     // Check if the information already exists\
-    const existingEmail = await db.student.findFirst({
+    const existingEmail = await db.student.findUnique({
       where: {
         email,
       },
     });
-    const existingBCN = await db.student.findFirst({
+    const existingBCN = await db.student.findUnique({
       where: {
         BCN,
       },
     });
-    const existingRegNo = await db.student.findFirst({
+    const existingRegNo = await db.student.findUnique({
       where: {
         regNo,
       },
     });
-    const existingRollNo = await db.student.findFirst({
+    const existingRollNo = await db.student.findUnique({
       where: {
         rollNo,
       },
@@ -55,15 +55,17 @@ export async function createStudent(req: TypedRequestBody<StudentCreateProps>, r
       });
     }
     const newStudent = await db.student.create({
-      data
+      data,
     });
     console.log(
-      `Parent created successfully: ${newStudent.firstName} (${newStudent.id})`
+      `Student created successfully: ${newStudent.firstName} (${newStudent.id})`
     );
+    // console.log("NewStudent: ", newStudent);
     return res.status(201).json({
       data: newStudent,
       error: null,
     });
+    // console.log("Result: ", result)
   } catch (error) {
     console.log(error);
     return res.status(500).json({
@@ -80,6 +82,22 @@ export async function getStudents(req: Request, res: Response) {
       },
     });
     return res.status(200).json(students);
+  } catch (error) {
+    console.log(error);
+  }
+}
+export async function getNextStudentSquence(req: Request, res: Response) {
+  try {
+    const lastStudent = await db.student.findFirst({
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    //BU/UG/2024/0001
+    const stringSeq = lastStudent?.regNo.split("/")[3];
+    const lastSeq = stringSeq ? parseInt(stringSeq) : 0;
+    const nextSeq =  lastSeq + 1;
+    return res.status(200).json(nextSeq);
   } catch (error) {
     console.log(error);
   }
