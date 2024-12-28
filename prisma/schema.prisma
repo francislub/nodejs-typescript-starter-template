@@ -149,14 +149,17 @@ model Teacher {
   id        String      @id @default(cuid())
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
-
+  
+  title String
   firstName String
   lastName  String
   email     String   @unique
-  phone     String?
+  phone     String   @unique
+  whatsappNo  String?
   dateOfBirth  DateTime?
   gender    Gender
   imageUrl   String?
+  NIN        String  @unique
 
   password    String?
   isActive    Boolean @default(true)
@@ -170,7 +173,8 @@ model Teacher {
   department    Department @relation(fields: [departmentId], references: [id])
   departmentId  String
 
-  specialization String?
+  mainSubject String?
+  mainSubjectId String?
   qualification  String
 
   subjects   String[]
@@ -180,10 +184,7 @@ model Teacher {
   documents TeacherDocument[]
 
   address  String?
-  city     String?
-  state    String?
-  country  String?
-  postalCode String?
+  nationality  String
 
   emergencyContactName   String?
   emergencyContactPhone  String?
