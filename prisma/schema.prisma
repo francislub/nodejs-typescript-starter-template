@@ -215,6 +215,7 @@ model Department {
   //schoolId String
 
   hodId         String?
+  hodName         String?
   hodStartDate  DateTime?
 
   teachers      Teacher[]
