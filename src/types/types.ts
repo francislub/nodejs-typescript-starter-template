@@ -20,6 +20,11 @@ export type ContactProps = {
     slug: string;
   };
 
+  export type DepartmentCreateProps ={
+    name: string;
+    slug: string;
+  };
+
   export type StreamCreateProps ={
     title: string;
     slug: string;
