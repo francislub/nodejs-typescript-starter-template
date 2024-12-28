@@ -18,10 +18,10 @@ model School {
   logo      String?
   slug String @unique
 
-  students    Student[]
-  classes     Class[]
-  parents     Parent[]
-  streams     Stream[]
+  //students    Student[]
+  //classes     Class[]
+  //parents     Parent[]
+  //streams     Stream[]
 
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -54,8 +54,8 @@ model Class {
 
   streams       Stream[] 
 
-  schoolId      String 
-  school        School  @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  //schoolId      String 
+  //school        School  @relation(fields: [schoolId], references: [id], onDelete: Cascade)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
@@ -69,8 +69,8 @@ model Stream {
   class       Class     @relation(fields: [classId], references: [id], onDelete: Cascade) 
   students Student[]
   
-  schoolId      String 
-  school        School  @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  //schoolId      String 
+  //school        School  @relation(fields: [schoolId], references: [id], onDelete: Cascade)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
@@ -97,8 +97,8 @@ model Parent {
   password       String 
   students Student[]
 
-  schoolId      String 
-  school        School  @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  //schoolId      String 
+  //school        School  @relation(fields: [schoolId], references: [id], onDelete: Cascade)
 
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -135,12 +135,221 @@ model Student {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  schoolId      String 
-  school        School  @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  //schoolId      String 
+  //school        School  @relation(fields: [schoolId], references: [id], onDelete: Cascade)
 
   parent    Parent @relation(fields: [parentId], references:[id], onDelete: Cascade)
   class    Class @relation(fields: [classId], references:[id])
   stream    Stream @relation(fields: [streamId], references:[id])
 
   @@map("students")
+}
+
+model Teacher {
+  id        String      @id @default(cuid())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  firstName String
+  lastName  String
+  email     String   @unique
+  phone     String?
+  dateOfBirth  DateTime?
+  gender    Gender
+  imageUrl   String?
+
+  password    String?
+  isActive    Boolean @default(true)
+  lastLogin   DateTime?
+
+  employeeId  String  @unique
+  dateOfJoining DateTime
+  designation   String
+
+  departmentName  String
+  department    Department @relation(fields: [departmentId], references: [id])
+  departmentId  String
+
+  specialization String?
+  qualification  String
+
+  subjects   String[]
+  classes    String[]
+  classesIds    String[]
+
+  documents TeacherDocument[]
+
+  address  String?
+  city     String?
+  state    String?
+  country  String?
+  postalCode String?
+
+  emergencyContactName   String?
+  emergencyContactPhone  String?
+  emergencyContactRelation String?
+
+  experience   Int?
+  bio          String? @db.Text
+  skills       String?
+
+  //school School @relation(fields: [schoolId], references: [id])
+  //schoolId String
+
+  attendance TeacherAttendance[]
+  leaves     TeacherLeave[]
+
+ @@map("teachers")
+}
+
+model Department {
+  id String @id @default(cuid())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  name          String
+  slug          String  @unique
+
+  //school School @relation(fields: [schoolId], references: [id])
+  //schoolId String
+
+  hodId         String?
+  hodStartDate  DateTime?
+
+  teachers      Teacher[]
+  subjects      Subject[]
+
+  budget        Float?
+  budgetYear    String?
+
+   @@map("departments")
+}
+
+model Subject {
+  id String @id @default(cuid())
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  name String
+  slug String @unique
+  code String
+  shortName String?
+
+  passingMarks  Int?
+  totalMarks    Int?
+
+  department    Department @relation(fields: [departmentId], references: [id])
+  departmentId  String
+
+  //school School @relation(fields: [schoolId], references: [id])
+  //schoolId String
+  
+
+  isActive  Boolean @default(true)
+  isOptional Boolean @default(false)
+  hasTheory  Boolean @default(true)
+  hasPractical Boolean @default(false)
+
+  labRequired Boolean @default(false)
+
+  @@map("subjects")
+}
+
+enum SubjectCategory {
+  CORE
+  ELECTIVE
+  ADDITIONAL
+  VOCATIONAL
+  LANGUAGE
+  EXTRA_CURRICULAR
+
+}
+enum SubjectType {
+  THEORY
+  PRACTICAL 
+  BOTH
+}
+
+model TeacherDocument {
+  id String @id @default(cuid())
+  teacher  Teacher @relation(fields: [teacherId], references: [id])
+  teacherId  String
+
+  type   DocumentType
+  title  String
+  url    String
+  uploadedAt  DateTime  @default(now())
+
+  @@index([teacherId])
+  @@map("teacherDocuments")
+}
+
+model TeacherAttendance {
+  id String @id @default(cuid())
+  teacher  Teacher @relation(fields: [teacherId], references: [id])
+  teacherId  String
+  
+  date     DateTime
+  status   AttendanceStatus
+  checkIn  DateTime?
+  checkOut DateTime?
+  note     String?
+
+  @@unique([teacherId, date])
+  @@map("teacherAttendences")
+
+}
+
+model TeacherLeave {
+  id String @id @default(cuid())
+  teacher  Teacher @relation(fields: [teacherId], references: [id])
+  teacherId  String
+
+  startDate  DateTime
+  endDate    DateTime
+  type       LeaveType
+  reason     String
+  status     LeaveStatus @default(PENDING)
+  approvedBy String?
+  approvedAt DateTime?
+
+  @@index([teacherId])
+  @@map("teacherLeaves")
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum DocumentType {
+  RESUME
+  CERTIFICATE
+  ID_PROOF
+  QUALIFICATION 
+  CONTRACT
+  OTHER
+}
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE 
+  HALF_DAY
+  ON_LEAVE
+}
+enum LeaveType {
+  SICK
+  CASUAL
+  VACATION
+  MATERNITY
+  PATERNITY
+  OTHER
+}
+
+enum LeaveStatus {
+  PENDING 
+  APPROVED 
+  REJECTED
+  CANCELLED
 }
