@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { SubjectCategory, SubjectType } from '@prisma/client';
 export interface TypedRequestBody<T> extends Request {
     body: T;
 }
@@ -23,6 +24,17 @@ export type ContactProps = {
   export type DepartmentCreateProps ={
     name: string;
     slug: string;
+  };
+
+  export type SubjectCreateProps ={
+    name: string;
+    slug: string;
+    code: string;
+    shortName: string;
+    category: SubjectCategory;
+    type: SubjectType;
+    departmentId: string;
+    departmentName: string;
   };
 
   export type StreamCreateProps ={

@@ -1,33 +1,33 @@
 import { db } from "@/db/db";
-import { DepartmentCreateProps, StreamCreateProps, TypedRequestBody } from "@/types/types";
+import { SubjectCreateProps, TypedRequestBody } from "@/types/types";
 import { generateSlug } from "@/utils/generateSlug";
 import { Request, Response } from "express";
 
-export async function createDepartment(req: TypedRequestBody<DepartmentCreateProps>, res: Response) {
+export async function createSubject(req: TypedRequestBody<SubjectCreateProps>, res: Response) {
   const data = req.body;
   const slug = generateSlug(data.name)
   data.slug = slug
   try {
-    // Check if the class already exists\
-    const existingDepartment = await db.department.findUnique({
+    // Check if the subject already exists\
+    const existingSubject = await db.subject.findUnique({
       where: {
         slug,
       },
     });
-    if (existingDepartment) {
+    if (existingSubject) {
       return res.status(409).json({
         data: null,
-        error: "Department Already exists",
+        error: "Subject Already exists",
       });
     }
-    const newDepartment = await db.department.create({
+    const newSubject = await db.subject.create({
       data
     });
     console.log(
-      `Department created successfully: ${newDepartment.name} (${newDepartment.id})`
+      `Subject created successfully: ${newSubject.name} (${newSubject.id})`
     );
     return res.status(201).json({
-      data: newDepartment,
+      data: newSubject,
       error: null,
     });
   } catch (error) {
@@ -38,29 +38,25 @@ export async function createDepartment(req: TypedRequestBody<DepartmentCreatePro
     });
   }
 }
-export async function getDepartments(req: Request, res: Response) {
+export async function getSubjects(req: Request, res: Response) {
   try {
-    const departments = await db.department.findMany({
+    const subs = await db.subject.findMany({
       orderBy: {
         createdAt: "desc",
       },
-      include: {
-       teachers : true,
-       subjects : true
-      }
     });
-    return res.status(200).json(departments);
+    return res.status(200).json(subs);
   } catch (error) {
     console.log(error);
     return res.status(500).json({
-      error: "Failed to fetch departments",
+      error: "Failed to fetch Subjects",
     })
   }
 }
 
-export async function getBriefDepartments(req: Request, res: Response) {
+export async function getBriefSubjects(req: Request, res: Response) {
   try {
-    const departments = await db.department.findMany({
+    const subjects = await db.subject.findMany({
       orderBy: {
         createdAt: "desc",
       },
@@ -69,11 +65,11 @@ export async function getBriefDepartments(req: Request, res: Response) {
         name:true
       }
     });
-    return res.status(200).json(departments);
+    return res.status(200).json(subjects);
   } catch (error) {
     console.log(error);
     return res.status(500).json({
-      error: "Failed to fetch departments",
+      error: "Failed to fetch subjects",
     })
   }
 }

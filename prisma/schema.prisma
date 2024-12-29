@@ -237,11 +237,15 @@ model Subject {
   code String
   shortName String?
 
+  category   SubjectCategory
+  type       SubjectType
+
   passingMarks  Int?
   totalMarks    Int?
 
   department    Department @relation(fields: [departmentId], references: [id])
   departmentId  String
+  departmentName  String
 
   //school School @relation(fields: [schoolId], references: [id])
   //schoolId String
