@@ -6,6 +6,7 @@ import parentRouter from "./routes/parents";
 import studentRouter from "./routes/students";
 import departmentRouter from "./routes/departments";
 import subjectRouter from "./routes/subjects";
+import teacherRouter from "./routes/teachers";
 
 require("dotenv").config();
 const cors = require("cors");
@@ -27,3 +28,4 @@ app.use("/api/v1", parentRouter);
 app.use("/api/v1", studentRouter);
 app.use("/api/v1", departmentRouter);
 app.use("/api/v1", subjectRouter);
+app.use("/api/v1", teacherRouter);

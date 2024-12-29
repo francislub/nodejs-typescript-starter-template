@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { SubjectCategory, SubjectType } from '@prisma/client';
+import { Gender, SubjectCategory, SubjectType } from '@prisma/client';
 export interface TypedRequestBody<T> extends Request {
     body: T;
 }
@@ -86,3 +86,32 @@ export type ContactProps = {
     admissionDate:string;
     address:string;
   };
+
+  export type TeacherCreateProps = {
+    title:string;
+    employeeId:string;
+    firstName:string,
+    lastName:string,
+    phone:string,
+    email:string,
+    whatsappNo:string,
+    nationality:string,
+    NIN:string,
+    gender:Gender,
+    dateOfBirth:string,
+    contactMethod:string,
+    password:string,
+    dateOfJoining:string,
+    designation:string,
+    departmentId:string,
+    departmentName:string,
+    qualification:string,
+    mainSubject:string,
+    mainSubjectId:string,
+    subjects:string[],
+    classIds:string[],
+    classes:string[],
+    experience:number,
+    address:string,
+    imageUrl:string,
+  }
