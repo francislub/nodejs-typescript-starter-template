@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Gender, SubjectCategory, SubjectType } from '@prisma/client';
+import { Gender, SubjectCategory, SubjectType, UserRole } from '@prisma/client';
 export interface TypedRequestBody<T> extends Request {
     body: T;
 }
@@ -14,6 +14,22 @@ export type ContactProps = {
     role: string;
     media: string;
     message: string;
+  };
+
+  export type UserCreateProps = {
+    email: string;
+    password: string;
+    role: UserRole;
+    name: string;
+    phone?: string;
+    image?: string;
+    scholId?: string;
+    schoolName?: string;
+  };
+
+  export type UserLoginProps = {
+    email: string;
+    password: string;
   };
 
   export type ClassCreateProps ={
