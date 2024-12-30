@@ -115,3 +115,49 @@ export type ContactProps = {
     address:string,
     imageUrl:string,
   }
+
+  export interface Teacher {
+    id: string;
+    createdAt: Date;
+    updatedAt: Date;
+
+    title: string;
+    firstName: string;
+    lastName: string;
+    dateOfBirth: Date;
+    gender: string;
+    nationality: string;
+    imageUrl: string;
+    NIN: string;
+    bio?: string | null;
+
+    email: string;
+    phone: string;
+    whatsappNo: string;
+    address: string;
+    contactMethod: string;
+
+    emergencyContactName?: string | null;
+    emergencyContactPhone?: string | null;
+    emergencyContactRelation?: string | null;
+
+    dateOfJoining: Date;
+    designation: string;
+    departmentName: string;
+    departmentId: string;
+    isActive: boolean;
+    lastLogin: string | null;
+    password: string;
+
+    qualification: string;
+    experience: number;
+    skills?: string[] | null;
+    mainSubject: string;
+    mainSubjectId: string;
+    subjects: string[];
+
+    classes: string[];
+    classIds: string[];
+
+
+  }

@@ -157,13 +157,14 @@ model Teacher {
   phone     String   @unique
   whatsappNo  String?
   dateOfBirth  DateTime?
-  gender    Gender
+  gender      Gender
   imageUrl   String?
   NIN        String  @unique
 
   password    String?
   isActive    Boolean @default(true)
   lastLogin   DateTime?
+  contactMethod String
 
   employeeId  String  @unique
   dateOfJoining DateTime
@@ -179,7 +180,7 @@ model Teacher {
 
   subjects   String[]
   classes    String[]
-  classesIds    String[]
+  classIds    String[]
 
   documents TeacherDocument[]
 
