@@ -23,7 +23,7 @@ export type ContactProps = {
     name: string;
     phone?: string;
     image?: string;
-    scholId?: string;
+    schoolId?: string;
     schoolName?: string;
   };
 

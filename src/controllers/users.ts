@@ -1,13 +1,12 @@
 import { db } from "@/db/db";
 import { TypedRequestBody, UserCreateProps, UserLoginProps } from "@/types/types";
-import { Request, Response } from "express";
+import { Response } from "express";
 import bcrypt from "bcrypt";
-import { error } from "console";
 import { generateAccessToken, generateRefreshToken, TokenPayload } from "@/utils/tokens";
 
 export async function createUser(req: TypedRequestBody<UserCreateProps>, res: Response) {
   const data = req.body;
-  const {email, password, role, name,phone,image, scholId, schoolName} = data;
+  const {email, password, role, name,phone,image, schoolId, schoolName} = data;
 
   try {
     // Check if the user already exists\
